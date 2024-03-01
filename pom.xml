@@ -28,5 +28,6 @@
     <module>rpc-grpc-api</module>
     <module>rpc-grpc-service</module>
     <module>rpc-grpc-server</module>
+    <module>rpc-grpc-client</module>
   </modules>
 </project>
