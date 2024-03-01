@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_multiple_files = false;
+
+option java_package = "com.yhs";
+
+option java_outer_classname = "HelloProto";
+
+/*
+ IDL 文件目的 发布RPC服务
+ */
+
+message HelloRequest{
+  string name = 1;
+}
+
+message HelloResponse{
+  string result = 1;
+}
+
+service HelloService{
+  rpc hello(HelloRequest) returns (HelloResponse){}
+}
