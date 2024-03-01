@@ -18,6 +18,15 @@ message HelloResponse{
   string result = 1;
 }
 
+message MutiHelloRequest{
+  repeated string name = 1;
+}
+
+message MutiHelloResponse{
+  string result = 1;
+}
+
 service HelloService{
   rpc hello(HelloRequest) returns (HelloResponse){}
+  rpc mutiHello(MutiHelloRequest) returns (MutiHelloResponse){}
 }

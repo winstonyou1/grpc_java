@@ -5,7 +5,7 @@ import io.grpc.ManagedChannelBuilder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class GrpcClient1 {
+public class GrpcClient2 {
 
     public static void main(String[] args) {
         //1、创建通信管道
@@ -15,15 +15,17 @@ public class GrpcClient1 {
             HelloServiceGrpc.HelloServiceBlockingStub helloServiceBlockingStub = HelloServiceGrpc.newBlockingStub(channel);
             //3、完成GRPC调用
             //3.1、创建请求对象
-            HelloProto.HelloRequest.Builder builder = HelloProto.HelloRequest.newBuilder();
+            HelloProto.MutiHelloRequest.Builder builder = HelloProto.MutiHelloRequest.newBuilder();
             //3.2、设置请求参数
-            builder.setName("yhs");
-            HelloProto.HelloRequest helloRequest = builder.build();
+            builder.addName("yhs");
+            builder.addName("ljr");
+            builder.addName("ncc");
+            HelloProto.MutiHelloRequest helloRequest = builder.build();
             System.out.println("客户端请求参数：" + helloRequest.toString());
             //3.3、执行GRPC调用
-            HelloProto.HelloResponse hello = helloServiceBlockingStub.hello(helloRequest);
+            HelloProto.MutiHelloResponse mutiHello = helloServiceBlockingStub.mutiHello(helloRequest);
             //3.4、打印结果
-            System.out.println("服务端返回的数据：" + hello.getResult());
+            System.out.println("服务端返回的数据：" + mutiHello.getResult());
         }catch (Exception e){
             log.error("异常信息：", e);
             throw new RuntimeException(e);
