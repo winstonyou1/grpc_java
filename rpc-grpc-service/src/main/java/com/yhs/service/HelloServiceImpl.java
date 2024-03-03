@@ -7,6 +7,7 @@ import com.yhs.HelloProto.HelloRequest;
 import com.yhs.HelloProto.HelloResponse;
 import com.yhs.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @ClassName HelloServiceImpl
@@ -15,6 +16,7 @@ import io.grpc.stub.StreamObserver;
  * @Date 2024/2/29 21:33
  * @Version 1.0
  **/
+@Slf4j
 public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
     /*
      * StreamObserver<HelloResponse> responseObserver 对应的是hello方法的返回值
@@ -53,7 +55,17 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
         builder.setResult("hello method invoke ok, name is " + nameList);
         //3.3、封装响应
         HelloProto.MutiHelloResponse mutiHelloResponse = builder.build();
-        responseObserver.onNext(mutiHelloResponse);
-        responseObserver.onCompleted();
+        try{
+            //3.4、将响应写入到响应流中
+            responseObserver.onNext(mutiHelloResponse);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            responseObserver.onError(e);
+       }finally {
+            //3.5、通知服务器，当前响应已经完成
+            responseObserver.onCompleted();
+      }
+
+
     }
 }
