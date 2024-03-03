@@ -73,7 +73,32 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
             //3.5、通知客户端，当前响应已经完成 -》 加一个标志
             responseObserver.onCompleted();
       }
+    }
 
+    @Override
+    public void c2ss(HelloRequest request, StreamObserver<HelloResponse> responseObserver) {
+        //1、接收客户端发送来的请求数据
+        String name = request.getName();
+        //2、业务处理
+        System.out.println("c2ss name parameter is " + name);
+        //3、封装响应
 
+        for (int i =0;i< 9;i++) {
+            //3.1、创建相应对象的构造者
+            HelloResponse.Builder builder = HelloResponse.newBuilder();
+            //3.2、填充数据
+            builder.setResult("处理结果" + "i-"+i+": "+name);
+            //3.3、封装响应
+            HelloProto.HelloResponse helloResponse = builder.build();
+            //3.4、处理后的响应通过网络通道回传给客户端
+            responseObserver.onNext(helloResponse);
+            try{
+            Thread.sleep(1000);
+            }catch (Exception e){
+                responseObserver.onError(e);
+            }
+        }
+        //3.5、通知客户端，当前响应已经完成 -》 加一个标志
+        responseObserver.onCompleted();
     }
 }
