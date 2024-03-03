@@ -38,8 +38,16 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
         builder.setResult("hello method invoke ok, name is " + name);
         //3.3、封装响应
         HelloResponse helloResponse = builder.build();
-        responseObserver.onNext(helloResponse);
-        responseObserver.onCompleted();
+        try{
+            //3.4、处理后的响应通过网络通道回传给客户端
+            responseObserver.onNext(helloResponse);
+        }catch (Exception e){
+            log.error(e.getMessage());
+            responseObserver.onError(e);
+        }finally {
+            //3.5、通知客户端，当前响应已经完成 -》 加一个标志
+            responseObserver.onCompleted();
+        }
     }
 
     @Override
@@ -56,13 +64,13 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
         //3.3、封装响应
         HelloProto.MutiHelloResponse mutiHelloResponse = builder.build();
         try{
-            //3.4、将响应写入到响应流中
+            //3.4、处理后的响应通过网络通道回传给客户端
             responseObserver.onNext(mutiHelloResponse);
         }catch (Exception e){
             log.error(e.getMessage());
             responseObserver.onError(e);
        }finally {
-            //3.5、通知服务器，当前响应已经完成
+            //3.5、通知客户端，当前响应已经完成 -》 加一个标志
             responseObserver.onCompleted();
       }
 
