@@ -77,6 +77,37 @@ public final class HelloServiceGrpc {
     return getMutiHelloMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<com.yhs.HelloProto.HelloRequest,
+      com.yhs.HelloProto.HelloResponse> getC2ssMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "c2ss",
+      requestType = com.yhs.HelloProto.HelloRequest.class,
+      responseType = com.yhs.HelloProto.HelloResponse.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+  public static io.grpc.MethodDescriptor<com.yhs.HelloProto.HelloRequest,
+      com.yhs.HelloProto.HelloResponse> getC2ssMethod() {
+    io.grpc.MethodDescriptor<com.yhs.HelloProto.HelloRequest, com.yhs.HelloProto.HelloResponse> getC2ssMethod;
+    if ((getC2ssMethod = HelloServiceGrpc.getC2ssMethod) == null) {
+      synchronized (HelloServiceGrpc.class) {
+        if ((getC2ssMethod = HelloServiceGrpc.getC2ssMethod) == null) {
+          HelloServiceGrpc.getC2ssMethod = getC2ssMethod =
+              io.grpc.MethodDescriptor.<com.yhs.HelloProto.HelloRequest, com.yhs.HelloProto.HelloResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.SERVER_STREAMING)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "c2ss"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yhs.HelloProto.HelloRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.yhs.HelloProto.HelloResponse.getDefaultInstance()))
+              .setSchemaDescriptor(new HelloServiceMethodDescriptorSupplier("c2ss"))
+              .build();
+        }
+      }
+    }
+    return getC2ssMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +169,13 @@ public final class HelloServiceGrpc {
         io.grpc.stub.StreamObserver<com.yhs.HelloProto.MutiHelloResponse> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getMutiHelloMethod(), responseObserver);
     }
+
+    /**
+     */
+    default void c2ss(com.yhs.HelloProto.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.yhs.HelloProto.HelloResponse> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getC2ssMethod(), responseObserver);
+    }
   }
 
   /**
@@ -182,6 +220,14 @@ public final class HelloServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getMutiHelloMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void c2ss(com.yhs.HelloProto.HelloRequest request,
+        io.grpc.stub.StreamObserver<com.yhs.HelloProto.HelloResponse> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncServerStreamingCall(
+          getChannel().newCall(getC2ssMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -212,6 +258,14 @@ public final class HelloServiceGrpc {
     public com.yhs.HelloProto.MutiHelloResponse mutiHello(com.yhs.HelloProto.MutiHelloRequest request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getMutiHelloMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public java.util.Iterator<com.yhs.HelloProto.HelloResponse> c2ss(
+        com.yhs.HelloProto.HelloRequest request) {
+      return io.grpc.stub.ClientCalls.blockingServerStreamingCall(
+          getChannel(), getC2ssMethod(), getCallOptions(), request);
     }
   }
 
@@ -250,6 +304,7 @@ public final class HelloServiceGrpc {
 
   private static final int METHODID_HELLO = 0;
   private static final int METHODID_MUTI_HELLO = 1;
+  private static final int METHODID_C2SS = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -275,6 +330,10 @@ public final class HelloServiceGrpc {
         case METHODID_MUTI_HELLO:
           serviceImpl.mutiHello((com.yhs.HelloProto.MutiHelloRequest) request,
               (io.grpc.stub.StreamObserver<com.yhs.HelloProto.MutiHelloResponse>) responseObserver);
+          break;
+        case METHODID_C2SS:
+          serviceImpl.c2ss((com.yhs.HelloProto.HelloRequest) request,
+              (io.grpc.stub.StreamObserver<com.yhs.HelloProto.HelloResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -308,6 +367,13 @@ public final class HelloServiceGrpc {
               com.yhs.HelloProto.MutiHelloRequest,
               com.yhs.HelloProto.MutiHelloResponse>(
                 service, METHODID_MUTI_HELLO)))
+        .addMethod(
+          getC2ssMethod(),
+          io.grpc.stub.ServerCalls.asyncServerStreamingCall(
+            new MethodHandlers<
+              com.yhs.HelloProto.HelloRequest,
+              com.yhs.HelloProto.HelloResponse>(
+                service, METHODID_C2SS)))
         .build();
   }
 
@@ -358,6 +424,7 @@ public final class HelloServiceGrpc {
               .setSchemaDescriptor(new HelloServiceFileDescriptorSupplier())
               .addMethod(getHelloMethod())
               .addMethod(getMutiHelloMethod())
+              .addMethod(getC2ssMethod())
               .build();
         }
       }
