@@ -8,6 +8,9 @@ import com.yhs.HelloProto.HelloResponse;
 import com.yhs.HelloServiceGrpc;
 import io.grpc.stub.StreamObserver;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @ClassName HelloServiceImpl
  * @Author Winston
@@ -81,5 +84,39 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
             e.printStackTrace();
         }
         responseObserver.onCompleted();
+    }
+
+    /**
+    *@Date：2024/3/4
+    *@Author：winston
+    *@return：客户端流式RPC 返回值是StreamObserver  监听多个请求 返回一个结果集
+     **/
+    @Override
+    public StreamObserver<HelloRequest> cs2s(StreamObserver<HelloResponse> responseObserver) {
+        return new StreamObserver<HelloRequest>() {
+            List<HelloRequest> requestList = new ArrayList<>();
+            @Override
+            public void onNext(HelloRequest helloRequest) {
+                System.out.println("接收到了客户端发送的一条消息：" + helloRequest.getName());
+                //1、接收客户端发送来的请求数据 单次处理返回值
+                requestList.add(helloRequest);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println("服务器已经收到了所有客户端发送请求，准备返回结果");
+                //1、接收客户端发送来的请求数据 所有请求都接收后处理返回值
+                HelloProto.HelloResponse.Builder builder = HelloProto.HelloResponse.newBuilder();
+                builder.setResult("hello method invoke ok"+requestList.toString());
+                HelloResponse helloResponse = builder.build();
+                responseObserver.onNext(helloResponse);
+                responseObserver.onCompleted();
+            }
+        };
     }
 }

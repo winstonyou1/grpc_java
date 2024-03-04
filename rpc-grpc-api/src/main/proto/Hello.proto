@@ -30,4 +30,5 @@ service HelloService{
   rpc hello(HelloRequest) returns (HelloResponse){}
   rpc mutiHello(MutiHelloRequest) returns (MutiHelloResponse){}
   rpc c2ss(HelloRequest) returns (stream HelloResponse){}
+  rpc cs2s(stream HelloRequest) returns (HelloResponse){}
 }
