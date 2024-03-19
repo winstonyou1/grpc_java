@@ -57,7 +57,7 @@ public class HelloServiceImpl  extends HelloServiceGrpc.HelloServiceImplBase {
         //2、业务处理
         System.out.println("name parameter is " + nameList);
         //3、封装响应
-        //3.1、创建相应对象的构造者
+        //3.1、创建相应对象的构造者 sa
         HelloProto.MutiHelloResponse.Builder builder = HelloProto.MutiHelloResponse.newBuilder();
         //3.2、填充数据
         builder.setResult("hello method invoke ok, name is " + nameList);
