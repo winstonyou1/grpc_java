@@ -4,6 +4,11 @@
     <remote-repository>
       <option name="id" value="cloud3products-basic-components-maven-public" />
       <option name="name" value="maven-public" />
+      <option name="url" value="http://172.18.64.96:8080/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="cloud3products-basic-components-maven-public" />
+      <option name="name" value="maven-public" />
       <option name="url" value="https://cloud3products-maven.pkg.coding.net/repository/basic-components/maven-public/" />
     </remote-repository>
     <remote-repository>
